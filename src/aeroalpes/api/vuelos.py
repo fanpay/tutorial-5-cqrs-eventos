@@ -1,3 +1,4 @@
+from aeroalpes.modulos.vuelos.infraestructura.despachadores import Despachador
 import aeroalpes.seedwork.presentacion.api as api
 import json
 from aeroalpes.modulos.vuelos.aplicacion.servicios import ServicioReserva
@@ -41,7 +42,11 @@ def reservar_asincrona():
         
         # TODO Reemplaze es todo código sincrono y use el broker de eventos para propagar este comando de forma asíncrona
         # Revise la clase Despachador de la capa de infraestructura
-        ejecutar_commando(comando)
+        #ejecutar_commando(comando)
+
+        despachador = Despachador()
+        despachador.publicar_comando(comando, 'comandos-reserva5')
+
         
         return Response('{}', status=202, mimetype='application/json')
     except ExcepcionDominio as e:
